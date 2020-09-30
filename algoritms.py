@@ -37,3 +37,35 @@ def insertion_sort(array):
     print(array)
 
 #insertion_sort(array)
+
+
+
+
+
+
+#--------------------SEARCH----------------------------
+def linear_search(array, elem):
+    for i in range(len(array)):
+        if array[i] == elem:
+            print(i)
+    return -1
+
+#linear_search(array, 2)
+
+
+
+# def binary_search(array, elem):
+#     first = 0
+#     last = len(array) - 1
+#     index = -1
+#     while(first <= last) and (index == -1):
+#         mid = (first + last) // 2
+#         if array[mid] == elem:
+#             index = mid
+#         else:
+#             if elem < array[mid]:
+#                 last = mid - 1
+#             else:
+#                 first = mid + 1
+#     print(index)
+# binary_search(array, 2)
