@@ -3,119 +3,91 @@ import numpy as np
 
 file = open('data.txt', 'w')
 
-
-def Eilers_method():
+def Eilers_method(x, y_prev, h):
 	file = open('EILERdata.txt', 'w')
 
-	h = 0.2
-	x = 0
 	i = 0
-	p = 1.5 
-	Y = [1.5]
-	YG = []
-	YM = []
-	X = [0]
 
 	while (i <= 3):
-		x = x + 0.2
-		y = p + h * (p-x)
+		x = x + h
+		y = y_prev + h * (y_prev-x)
 		yg = 0.5 * math.exp(x) + x + 1
-		ym = p + h/2 * ((p-x) + ((h * (p-x) + p - (x+0.2))))
+		ym = y_prev + h/2 * ((y_prev-x) + ((h * (y_prev-x) + y_prev - (x+0.2))))
 		
-		p = y #переопределение значения
+		y_prev = y #переопределение значения
 
-
-		#recording in arrays
-		#X.append(round(x, 3)) 
-		#Y.append(round(y, 3))
-		#YG.append(round(yg, 3))
-		#YM.append(round(ym, 3))
 
 		#recording in file 
-		file.write(str(round(y, 3)))
-		file.write(' ')
 		file.write(str(round(x, 3)))
+		file.write(' ')
+		file.write(str(round(y, 3)))
 		file.write(' ')
 		file.write(str(round(yg, 3)))
 		file.write(' ')
-		file.write(str(round(x, 3)))
-		file.write(' ')
 		file.write(str(round(ym, 3)))
-		file.write(' ')
-		file.write(str(round(x, 3)))
 		file.write(' ')
 		file.write('\n')
 
 		i = i + 1
 
+	print("Eilers_method completed successfully...")
 
 
 
-def RungeKutta_Method():
+
+
+def RungeKutta_Method(x, y_prev, h):
 	file = open('RKdata.txt', 'w')
 
-	h = 0.1
-	x = 0
-	i = 0
-	y = 0
-	p = 1 #y_prev
-	e = 1
-	k_array = []
-	y_array = []
+	i = 0 #счётчик
+	y = 0 #инициализация
+	number_k_elements = 3 
+	k_array = [] #для хранения и суммирования элементов k
 
-	while (i <= 3 and x <= 1):
-
+	while (i <= number_k_elements and x <= 1):
 		if i == 0:
-			k = h * (2 * (x ** 2 + p))
-		elif i > 0 and i < 3:
-			y = p + 1/6 * sum_k(k_array)
-			y_array.append(y)
-			k = h * (2 *((x + h/2) ** 2 + y + k_prev/2))
+			k = h * (2 * (x ** 2 + y_prev))
+			k_array.append(k)
+
+		elif i > 0 and i < number_k_elements:
+			y = y_prev + 1/6 * sum(k_array)
+			y_prev = y #переопределение значений
+
+			k = h * (2 * ((x + h/2)**2 + (y + k_prev/2)))
+			k_array.append(2 * k)
+
 		else:
-			y = p + 1/6 * sum_k(k_array)
-			k = h * ((x + h) ** 2 + y + k_prev)
+			y = y_prev + 1/6 * sum(k_array)
+			y_prev = y #переопределение значений
+
+			k = h * (2 * ((x + h) ** 2 + y + k_prev))
+			k_array.append(k)
 
 		
-		k_array.append(k)
-		def sum_k(k_array):
-			suma = 0
-			for i in k_array:
-				suma += i
-			return suma
 
-		print(sum_k(k_array))
-		print("y-array = ",y_array)
-
-
-		#recording in file
+		#запись в файл
 		file.write(str(round(k, 3)))
 		file.write(' ') 
 		file.write(str(round(x, 3)))
 		file.write(' ')
-		file.write(str(round(p, 3)))
+		file.write(str(round(y_prev, 3)))
 		file.write(' ')
 		file.write('\n')
 
-		p = y
-		k_prev = k
-		x = x + h
+
+		k_prev = k #переопределение значений
+
+		x = x + h #прибавляем шаг
 		i = i + 1
 
-	print(k_array)
 
-#Eilers_method()
-
-RungeKutta_Method()
-
-#print("X_ARRAY: ", X_, end="\n")
-#print("Y_ARRAY: ", Y_, end="\n")
-#print("K_ARRAY: ", K_, end="\n")
+	print("RungeKutta_Method completed successfully...")
 
 
-#arrays
-#print(X, end="\n")
-#print(Y, end="\n")
-#print(YG, end="\n")
-#print(YM, end="\n")
+
+Eilers_method(0, 1, 0.1)
+
+RungeKutta_Method(0, 1, 0.1)
+
 
 file.close()
