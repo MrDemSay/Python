@@ -121,9 +121,6 @@ def RungeKutta_Method(x, y_prev, h):
 	f.write(str(fd))
 	f.close()
 
-		
-
-
 	print("RungeKutta_Method completed successfully...")
 
 
