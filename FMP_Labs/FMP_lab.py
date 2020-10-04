@@ -2,17 +2,6 @@ import numpy as np
 import pandas as pd
 import math
 
-# a = [0.1, 0.2, 0.3, 0.4, 0.5]
-# b = [1,2,3,4,5]
-# c = [10, 20, 30, 40, 50]
-# data = {'y':b, 'z':c}
-
-# f = pd.DataFrame(data, index=a)
-
-# print(f)
-
-
-
 
 file = open('data.txt', 'w')
 
